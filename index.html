@@ -551,7 +551,7 @@
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">h3</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">user-card</span>&gt;</span><span class="tag">&lt;/<span class="name">user-card</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">template</span> <span class="attr">id</span>=<span class="string">&quot;userNameTemplate&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span>姓名：Jone<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;userCard.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p>效果展示</p>
-<img src="/blog/.io//2020/11/27/web-components/01.png" class>
+<img src="/blog/2020/11/27/web-components/01.png" class>
 
 <h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">HTMLElement</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 监听这个属性，使attributeChangedCallback回调函数生效，返回需要监听的属性名称。</span></span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">get</span> <span class="title">observedAttributes</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&quot;c&quot;</span>, <span class="string">&quot;l&quot;</span>];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// Always call super first in constructor</span></span><br><span class="line">    <span class="built_in">super</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> shadow = <span class="built_in">this</span>.attachShadow(&#123; <span class="attr">mode</span>: <span class="string">&quot;open&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> div = <span class="built_in">document</span>.createElement(<span class="string">&quot;div&quot;</span>);</span><br><span class="line">    <span class="keyword">const</span> style = <span class="built_in">document</span>.createElement(<span class="string">&quot;style&quot;</span>);</span><br><span class="line">    shadow.appendChild(style);</span><br><span class="line">    shadow.appendChild(div);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 首次被插入DOM时调用</span></span><br><span class="line">  <span class="function"><span class="title">connectedCallback</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Custom square element added to page.&quot;</span>);</span><br><span class="line">    updateStyle(<span class="built_in">this</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 从DOM中删除时调用, document.body.removeChild</span></span><br><span class="line">  <span class="function"><span class="title">disconnectedCallback</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Custom square element removed from page.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 移动到新DOM时调用</span></span><br><span class="line">  <span class="function"><span class="title">adoptedCallback</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Custom square element moved to new page.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 增加、删除、修改自身属性时被调用</span></span><br><span class="line">  <span class="function"><span class="title">attributeChangedCallback</span>(<span class="params">name, oldValue, newValue</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&quot;Custom square element attributes changed.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">customElements.define(<span class="string">&quot;custom-square&quot;</span>, Square);</span><br></pre></td></tr></table></figure>
 
@@ -720,21 +720,21 @@
 
       
           <h3 id="driver-js"><a href="#driver-js" class="headerlink" title="driver.js"></a>driver.js</h3><p>轻量级页面显示库，局部高亮，页面引导</p>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/02.png" class>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/03.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/02.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/03.png" class>
 
 <h3 id="Luckysheet"><a href="#Luckysheet" class="headerlink" title="Luckysheet"></a>Luckysheet</h3><p>开源在线表格工具。<a target="_blank" rel="noopener" href="https://github.com/961109899/Luckysheet">访问</a></p>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luckysheet.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luckysheet.png" class>
 
 <h3 id="鲁班-H5"><a href="#鲁班-H5" class="headerlink" title="鲁班 H5"></a>鲁班 H5</h3><p>开源移动页面生成器。<a target="_blank" rel="noopener" href="http://docs.luban-h5.surge.sh/">访问</a></p>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luban.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/luban.png" class>
 
 <h3 id="鲁班-H5-1"><a href="#鲁班-H5-1" class="headerlink" title="鲁班 H5"></a>鲁班 H5</h3><p>图形验证码</p>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha.png" class>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha2.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/ajcaptcha2.png" class>
 
 <h3 id="filepond-文件上传"><a href="#filepond-文件上传" class="headerlink" title="filepond 文件上传"></a>filepond 文件上传</h3><p>非常优秀的文件上传库，可以上传文件，目录，blobs, URLS</p>
-<img src="/blog/.io//2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/filepond.png" class>
+<img src="/blog/2020/11/24/npm%E5%BC%80%E6%BA%90%E5%BA%93/filepond.png" class>
 
 <h3 id="cors"><a href="#cors" class="headerlink" title="cors"></a>cors</h3><p>express 中间件，多种方式实现 cors（跨域资源共享）。手动配置，动态域名等</p>
 <p>简单用法：</p>
@@ -1025,10 +1025,10 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;;</span><br></pre></td></tr></table></figure>
 
 <p>添加 runtimeChunk: “single”，共享一个实例</p>
-<img src="/blog/.io//2020/11/17/webpack/runtimeChunk-single.png" class>
+<img src="/blog/2020/11/17/webpack/runtimeChunk-single.png" class>
 
 <p>两个模块分别实例，count 为 1</p>
-<img src="/blog/.io//2020/11/17/webpack/no-runtimeChunk-single.png" class>
+<img src="/blog/2020/11/17/webpack/no-runtimeChunk-single.png" class>
 
 <ol start="2">
 <li>防止重复</li>
@@ -1479,8 +1479,6 @@
 <script src="/blog/js/next-boot.js"></script>
 
 
-  <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three.min.js"></script>
-    <script defer src="//cdn.jsdelivr.net/gh/theme-next/theme-next-three@1/three-waves.min.js"></script>
 
 
   
